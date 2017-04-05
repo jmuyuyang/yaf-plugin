@@ -1,5 +1,5 @@
 <?php
-namespace yuyang\yafPlugin;
+namespace yuyang\yafplugin;
 
 use Composer\Script\Event;
 
@@ -20,7 +20,7 @@ class PluginEvent implements PluginInterface,EventSubscriberInterface{
 	protected $composer;
 	protected $io;
 
-	public function acctivate(Composer $composer,IOInterface $io){
+	public function activate(Composer $composer,IOInterface $io){
 		$this->composer = $composer;
 		$this->io = $io;
 	}
