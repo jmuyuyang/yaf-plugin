@@ -49,17 +49,20 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
 
     public function onPackageUpdate(PackageEvent $event)
     {
-        $packageName = $event->getOperation()->getPackage()->getName();
-        $autoload = $event->getOperation()->getPackage()->getAutoload();
-        if (isset($autoload['psr-4'])) {
-            $this->_updatePackages[$packageName] = $autoload['psr-4'];
+        $operation = $event->getOperation();
+        if (!$operation instanceof \Composer\DependencyResolver\Operation\UpdateOperation) {
+            $packageName = $operation->getPackage()->getName();
+            $autoload = $operation->getPackage()->getAutoload();
+            if (isset($autoload['psr-4'])) {
+                $this->_updatePackages[$packageName] = $autoload['psr-4'];
+            }
         }
     }
 
 
     public function onComposerUpdate(Event $event)
     {
-        if($this->_updatePackages) {
+        if ($this->_updatePackages) {
             $vendorDir = $event->getComposer()->getConfig()->get("vendor-dir");
             $libraryDir = dirname($vendorDir) . "/" . "library";
             foreach ($this->_updatePackages as $packageName => $autoloadInfo) {
