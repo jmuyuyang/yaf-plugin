@@ -16,25 +16,66 @@ use Composer\Installer\LibraryInstaller;
 #Hook in composer/installers for asking custom paths
 use Composer\Installers\Installer;
 
-class PluginEvent implements PluginInterface,EventSubscriberInterface{
-	protected $composer;
-	protected $io;
+class PluginEvent implements PluginInterface, EventSubscriberInterface
+{
+    protected $composer;
+    protected $io;
 
-	public function activate(Composer $composer,IOInterface $io){
-		$this->composer = $composer;
-		$this->io = $io;
-	}
+    protected $_updatePackages = array();
 
-	 public static function getSubscribedEvents()
-  {
-      return array(
-          "post-package-install" => array(
-              array('onPackageInstall', 0)
-          ),
-      );
-  }
-	public function onPackageInstall(PackageEvent $event){
-		echo "hell";
-	}
+    public function activate(Composer $composer, IOInterface $io)
+    {
+        $this->composer = $composer;
+        $this->io = $io;
+        var_dump($io);
+    }
 
+    public static function getSubscribedEvents()
+    {
+        return array(
+            "post-package-install" => array(
+                array('onPackageInstall', 0)
+            ),
+            "post-package-update" => array(
+                array('onPackageUpdate', 0)
+            ),
+            "post-install-cmd" => array(
+                array("onComposerUpdate",0)
+            ),
+            "post-update-cmd" => array(
+                array("onComposerUpdate",0)
+            )
+        );
+    }
+
+    public function onPackageUpdate(PackageEvent $event)
+    {
+        $packageName = $event->getOperation()->getPackage()->getName();
+        $autoload = $event->getOperation()->getPackage()->getAutoload();
+        if(isset($autoload['psr-4'])) {
+            $this->_updatePackages[$packageName] = $autoload['psr-4'];
+        }
+    }
+
+
+    public function onComposerUpdate(Event $event){
+        $vendorDir = $event->getConfig()->getVendorDir();
+        $libraryDir = "library";
+        foreach($this->_updatePackages as $packageName => $autoloadInfo) {
+            $packageName = str_replace("\\", "/", $packageName);
+            $basePackageDir = $vendorDir . "/" . $packageName;
+            if (!is_dir($libraryDir . "/" . $packageName)) {
+                mkdir($libraryDir . "/" . $packageName, 0755, true);
+            }
+            foreach ($autoloadInfo as $namespace => $dir) {
+                $namespace = str_replace("\\", "/", $namespace);
+                $packageDir = $basePackageDir . "/" . $dir;
+                if (is_dir($dir . "/" . $namespace)) {
+                    $packageDir = $packageDir . "/" . $namespace;
+                }
+                $cmd = sprintf("cp -r %s/* %s",$packageDir,$libraryDir.$namespace);
+                var_dump($cmd);
+            }
+        }
+    }
 }
