@@ -33,7 +33,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
     {
         return array(
             "post-package-install" => array(
-                array('onPackageInstall', 0)
+                array('onPackageUpdate', 0)
             ),
             "post-package-update" => array(
                 array('onPackageUpdate', 0)
