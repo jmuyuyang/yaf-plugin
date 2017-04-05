@@ -59,22 +59,26 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
 
     public function onComposerUpdate(Event $event)
     {
-        $vendorDir = $event->getComposer()->getConfig()->get("vendor-dir");
-        $libraryDir = dirname($vendorDir) . "/" . "library";
-        foreach ($this->_updatePackages as $packageName => $autoloadInfo) {
-            $packageName = str_replace("\\", "/", $packageName);
-            $basePackageDir = $vendorDir . "/" . $packageName;
-            foreach ($autoloadInfo as $namespace => $dir) {
-                $namespace = str_replace("\\", "/", $namespace);
-                $packageDir = $basePackageDir . "/" . $dir;
-                if (is_dir($dir . "/" . $namespace)) {
-                    $packageDir = $packageDir . "/" . $namespace;
+        if($this->_updatePackages) {
+            $vendorDir = $event->getComposer()->getConfig()->get("vendor-dir");
+            $libraryDir = dirname($vendorDir) . "/" . "library";
+            foreach ($this->_updatePackages as $packageName => $autoloadInfo) {
+                $packageName = str_replace("\\", "/", $packageName);
+                $basePackageDir = $vendorDir . "/" . $packageName;
+                foreach ($autoloadInfo as $namespace => $dir) {
+                    $namespace = str_replace("\\", "/", $namespace);
+                    $packageDir = $basePackageDir . "/" . $dir;
+                    if (is_dir($dir . "/" . $namespace)) {
+                        $packageDir = $packageDir . "/" . $namespace;
+                    }
+                    if (!is_dir($libraryDir . "/" . $namespace)) {
+                        mkdir($libraryDir . "/" . $namespace, 0755, true);
+                    }
+                    $cmd = sprintf("cp -r %s/* %s", $packageDir, $libraryDir . "/" . $namespace);
+                    //exec($cmd);
+                    var_dump($cmd);
+                    $this->io->write("associate composer package " . $packageName . " with yaf library");
                 }
-                if (!is_dir($libraryDir . "/" . $namespace)) {
-                    mkdir($libraryDir . "/" . $namespace, 0755, true);
-                }
-                $cmd = sprintf("cp -r %s/* %s", $packageDir, $libraryDir . "/" . $namespace);
-                var_dump($cmd);
             }
         }
     }
