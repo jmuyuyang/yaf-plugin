@@ -1,4 +1,4 @@
-## composer vendor包自动关联yaf library插件
+## composer package 自动关联yaf library插件
 ### 插件安装
 
 ```
