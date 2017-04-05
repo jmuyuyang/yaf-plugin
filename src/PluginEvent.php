@@ -50,12 +50,16 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
     public function onPackageUpdate(PackageEvent $event)
     {
         $operation = $event->getOperation();
-        if (!$operation instanceof \Composer\DependencyResolver\Operation\UpdateOperation) {
+        if ($operation instanceof \Composer\DependencyResolver\Operation\InstallOperation) {
             $packageName = $operation->getPackage()->getName();
             $autoload = $operation->getPackage()->getAutoload();
             if (isset($autoload['psr-4'])) {
                 $this->_updatePackages[$packageName] = $autoload['psr-4'];
             }
+        }
+        if($operation instanceof \Composer\DependencyResolver\Operation\UpdateOperation){
+            var_dump($operation->getTargetPackage());
+            var_dump($operation->getInitialPackage());
         }
     }
 
