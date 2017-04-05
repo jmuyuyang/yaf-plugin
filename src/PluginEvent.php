@@ -23,6 +23,8 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
 
     protected $_updatePackages = array();
 
+    const SELF_PLUGIN_NAME = "yuyang/yaf-plugin";
+
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
@@ -50,17 +52,21 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
     public function onPackageUpdate(PackageEvent $event)
     {
         $operation = $event->getOperation();
-        var_dump($operation);
+        $package = null;
         if ($operation instanceof \Composer\DependencyResolver\Operation\InstallOperation) {
-            $packageName = $operation->getPackage()->getName();
-            $autoload = $operation->getPackage()->getAutoload();
-            if (isset($autoload['psr-4'])) {
-                $this->_updatePackages[$packageName] = $autoload['psr-4'];
-            }
+            $package = $operation->getPackage();
         }
         if ($operation instanceof \Composer\DependencyResolver\Operation\UpdateOperation) {
-            var_dump($operation->getTargetPackage());
-            var_dump($operation->getInitialPackage());
+            $package = $operation->getTargetPackage();
+        }
+        if($package) {
+            $packageName = $package->getName();
+            if($packageName != self::SELF_PLUGIN_NAME) {
+                $autoload = $package->getAutoload();
+                if (isset($autoload['psr-4'])) {
+                    $this->_updatePackages[$packageName] = $autoload['psr-4'];
+                }
+            }
         }
     }
 
