@@ -34,7 +34,7 @@ class PluginEvent implements PluginInterface,EventSubscriberInterface{
       );
   }
 	public function onPackageInstall(PackageEvent $event){
-		echo "hello";
+		echo "hell";
 	}
 
 }
