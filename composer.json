@@ -1,5 +1,5 @@
 {
-    "name": "vagrant/yaf_plugin",
+    "name": "yuyang/yafPlugin",
     "description": "composer yaf plugin",
 	"type":"composer-plugin",
 	"extra":{
