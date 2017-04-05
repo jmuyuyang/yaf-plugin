@@ -1,9 +1,9 @@
 {
-    "name": "yuyang/yafPlugin",
+    "name": "yuyang/yaf-plugin",
     "description": "composer yaf plugin",
 	"type":"composer-plugin",
 	"extra":{
-		"class":"yuyang\\yafPlugin\\PluginEvent"
+		"class":"yuyang\\yaf-plugin\\PluginEvent"
 	},
     "authors": [
         {
@@ -13,7 +13,7 @@
     ],
 	"autoload":{
 		"psr-4":{
-			"yuyang\\yafPlugin\\": "src"
+			"yuyang\\yaf-plugin\\": "src"
 		}
 	},
     "require": {
