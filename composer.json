@@ -18,5 +18,11 @@
 	},
     "require": {
 		"composer-plugin-api": "1.1.0"
-	}
+	},
+	"repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
 }
