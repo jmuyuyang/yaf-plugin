@@ -82,7 +82,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
                 foreach ($autoloadInfo as $namespace => $dir) {
                     $namespace = str_replace("\\", "/", $namespace);
                     $packageDir = $basePackageDir . "/" . $dir;
-                    if (is_dir($dir . "/" . $namespace)) {
+                    if (is_dir($packageDir . "/" . $namespace)) {
                         $packageDir = $packageDir . "/" . $namespace;
                     }
                     if (!is_dir($libraryDir . "/" . $namespace)) {
