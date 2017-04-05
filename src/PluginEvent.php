@@ -31,16 +31,10 @@ class PluginEvent implements PluginInterface,EventSubscriberInterface{
           "post-package-install" => array(
               array('onPackageInstall', 0)
           ),
-          "post-package-update" => array(
-              array('onPackageUpdate', 0)
-          ),
       );
   }
 	public function onPackageInstall(PackageEvent $event){
-		var_dump($event);
+		echo "hello";
 	}
 
-	public function onPackageUpdate(PackageEvent $event){
-		var_dump($event);
-	}
 }
