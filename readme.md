@@ -1,5 +1,5 @@
 ## composer package 自动关联yaf library插件
-### 插件安装
+### 插件安装(安装后即自动启用)
 
 ```
 	composer require yuyang/yaf-plugin:dev-master
