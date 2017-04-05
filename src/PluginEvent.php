@@ -76,6 +76,10 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
         if ($this->_updatePackages) {
             $vendorDir = $event->getComposer()->getConfig()->get("vendor-dir");
             $libraryDir = dirname($vendorDir) . "/" . "library";
+            if(!is_dir($libraryDir)){
+                $this->io->writeError("yaf library is not exists");
+                return;
+            }
             foreach ($this->_updatePackages as $packageName => $autoloadInfo) {
                 $packageName = str_replace("\\", "/", $packageName);
                 $basePackageDir = $vendorDir . "/" . $packageName;
