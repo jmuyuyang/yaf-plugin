@@ -89,8 +89,13 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
                         mkdir($libraryDir . "/" . $namespace, 0755, true);
                     }
                     $cmd = sprintf("cp -r %s/* %s", $packageDir, $libraryDir . "/" . $namespace);
-                    exec($cmd);
-                    $this->io->write("associate composer package " . $packageName . " with yaf library");
+                    exec($cmd,$output,$return);
+                    if($return != 0){
+                        $this->io->writeError($output);
+                        $this->io->writeError("failed to associate composer package " . $packageName);
+                    }else {
+                        $this->io->write("associate composer package " . $packageName . " with yaf library");
+                    }
                 }
             }
         }
