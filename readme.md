@@ -2,7 +2,7 @@
 ### 插件安装
 
 ```
-	composer require yuyang/yaf-plugin
+	composer require yuyang/yaf-plugin:dev-master
 ```
 ### 使用注意
 - 该插件仅用于yaf框架下同步composer vendor中的包,以使用yaf原生autoload
