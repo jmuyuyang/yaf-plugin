@@ -27,7 +27,6 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
     {
         $this->composer = $composer;
         $this->io = $io;
-        var_dump($io);
     }
 
     public static function getSubscribedEvents()
@@ -50,6 +49,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
 
     public function onPackageUpdate(PackageEvent $event)
     {
+	    var_dump($event->getOperation()->getPackage());
         $packageName = $event->getOperation()->getPackage()->getName();
         $autoload = $event->getOperation()->getPackage()->getAutoload();
         if(isset($autoload['psr-4'])) {
