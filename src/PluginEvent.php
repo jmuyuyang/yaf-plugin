@@ -77,8 +77,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
             $vendorDir = $event->getComposer()->getConfig()->get("vendor-dir");
             $libraryDir = dirname($vendorDir) . "/" . "library";
             if(!is_dir($libraryDir)){
-                $this->io->writeError("yaf library is not exists");
-                return;
+                @mkdir($libraryDir,0755);
             }
             foreach ($this->_updatePackages as $packageName => $autoloadInfo) {
                 $packageName = str_replace("\\", "/", $packageName);
@@ -90,7 +89,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
                         $packageDir = $packageDir . "/" . $namespace;
                     }
                     if (!is_dir($libraryDir . "/" . $namespace)) {
-                        mkdir($libraryDir . "/" . $namespace, 0755, true);
+                        @mkdir($libraryDir . "/" . $namespace, 0755, true);
                     }
                     $cmd = sprintf("cp -r %s/* %s", $packageDir, $libraryDir . "/" . $namespace);
                     exec($cmd,$output,$return);
