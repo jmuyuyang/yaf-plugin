@@ -16,5 +16,7 @@
 			"yuyang\\yafPlugin\\": "src"
 		}
 	},
-    "require": {}
+    "require": {
+		"composer-plugin-api": "1.0.0"
+	}
 }
