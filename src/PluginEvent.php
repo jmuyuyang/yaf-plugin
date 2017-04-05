@@ -50,6 +50,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
     public function onPackageUpdate(PackageEvent $event)
     {
         $operation = $event->getOperation();
+        var_dump($operation);
         if ($operation instanceof \Composer\DependencyResolver\Operation\InstallOperation) {
             $packageName = $operation->getPackage()->getName();
             $autoload = $operation->getPackage()->getAutoload();
@@ -57,7 +58,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
                 $this->_updatePackages[$packageName] = $autoload['psr-4'];
             }
         }
-        if($operation instanceof \Composer\DependencyResolver\Operation\UpdateOperation){
+        if ($operation instanceof \Composer\DependencyResolver\Operation\UpdateOperation) {
             var_dump($operation->getTargetPackage());
             var_dump($operation->getInitialPackage());
         }
@@ -82,8 +83,7 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
                         mkdir($libraryDir . "/" . $namespace, 0755, true);
                     }
                     $cmd = sprintf("cp -r %s/* %s", $packageDir, $libraryDir . "/" . $namespace);
-                    //exec($cmd);
-                    var_dump($cmd);
+                    exec($cmd);
                     $this->io->write("associate composer package " . $packageName . " with yaf library");
                 }
             }
