@@ -1,0 +1,20 @@
+{
+    "name": "vagrant/yaf_plugin",
+    "description": "composer yaf plugin",
+	"type":"composer-plugin",
+	"extra":{
+		"class":"yuyang\\yafPlugin\\PluginEvent"
+	},
+    "authors": [
+        {
+            "name": "yuyang",
+            "email": "jmuljy@163.com"
+        }
+    ],
+	"autoload":{
+		"psr-4":{
+			"yuyang\\yafPlugin\\": "src"
+		}
+	},
+    "require": {}
+}
