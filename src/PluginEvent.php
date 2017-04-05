@@ -50,11 +50,6 @@ class PluginEvent implements PluginInterface, EventSubscriberInterface
     public function onPackageUpdate(PackageEvent $event)
     {
 	    var_dump($event->getOperation()->getPackage());
-        $packageName = $event->getOperation()->getPackage()->getName();
-        $autoload = $event->getOperation()->getPackage()->getAutoload();
-        if(isset($autoload['psr-4'])) {
-            $this->_updatePackages[$packageName] = $autoload['psr-4'];
-        }
     }
 
 
